@@ -6,6 +6,7 @@ USAGE:
 
 OPTIONS:
   -d, --debugger        Enable the eZ80 debugger
+  -b, --breakpoint      Set a breakpoint before starting
   -f, --fullscreen      Start in fullscreen mode
   -h, --help            Prints help information
   -u, --unlimited-cpu   Don't limit eZ80 CPU frequency
@@ -30,6 +31,7 @@ pub enum FirmwareVer {
 pub struct AppArgs {
     pub sdcard: Option<String>,
     pub debugger: bool,
+    pub breakpoint: Option<String>,
     pub unlimited_cpu: bool,
     pub fullscreen: bool,
     pub mos_bin: Option<std::path::PathBuf>,
@@ -51,6 +53,7 @@ pub fn parse_args() -> Result<AppArgs, pico_args::Error> {
     let args = AppArgs {
         sdcard: pargs.opt_value_from_str("--sdcard")?,
         debugger: pargs.contains(["-d", "--debugger"]),
+        breakpoint: pargs.opt_value_from_str(["-b", "--breakpoint"])?,
         unlimited_cpu: pargs.contains(["-u", "--unlimited_cpu"]),
         fullscreen: pargs.contains(["-f", "--fullscreen"]),
         perfect_scale: pargs.opt_value_from_str("--scale")?,
